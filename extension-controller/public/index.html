@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head><title>Điều khiển Extension</title></head>
+<body>
+  <h2>🎮 Gửi lệnh điều khiển Extension</h2>
+  <form id="form">
+    <input name="client_id" placeholder="Client ID" required><br>
+    <select name="command">
+      <option value="start">Start</option>
+      <option value="stop">Stop</option>
+    </select><br>
+    <textarea name="config" rows="5" cols="40">
+{
+  "scroll": { "minDelay": 1000, "maxDelay": 3000, "minDistance": 500, "maxDistance": 900 },
+  "like": { "likeProbability": 0.8, "maxLikes": 10 }
+}
+    </textarea><br>
+    <button type="submit">Gửi</button>
+  </form>
+
+  <script>
+    document.getElementById("form").onsubmit = async (e) => {
+      e.preventDefault();
+      const f = new FormData(e.target);
+      const payload = {
+        client_id: f.get("client_id"),
+        command: f.get("command"),
+        config: JSON.parse(f.get("config"))
+      };
+      await fetch("https://your-render-url.onrender.com/api/command", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      alert("✅ Đã gửi lệnh");
+    };
+  </script>
+</body>
+</html>

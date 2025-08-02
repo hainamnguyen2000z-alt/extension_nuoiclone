@@ -1,0 +1,29 @@
+<form id="controlForm">
+  <input name="client_id" placeholder="Client ID">
+  <select name="command">
+    <option value="start">Start</option>
+    <option value="stop">Stop</option>
+  </select>
+  <br>
+  <textarea name="config" placeholder='{"like": {"maxLikes": 5, "likeProbability": 0.8}}'></textarea>
+  <br>
+  <button type="submit">Gửi lệnh</button>
+</form>
+
+<script>
+document.getElementById("controlForm").onsubmit = async (e) => {
+  e.preventDefault();
+  const form = new FormData(e.target);
+  const payload = {
+    client_id: form.get("client_id"),
+    command: form.get("command"),
+    config: JSON.parse(form.get("config"))
+  };
+  const res = await fetch("https://your-api-url.com/api/command", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+  alert("Đã gửi lệnh.");
+};
+</script>
